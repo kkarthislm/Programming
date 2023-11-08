@@ -1,0 +1,121 @@
+/* 
+* learned process vs thread
+* thread creation 
+* types of thread creations (func pointer, lambda, functor, non static members, static members)
+*/
+
+#include<iostream>
+#include<thread>
+#include<chrono>
+
+using namespace std;
+
+unsigned long int evenSum = 0, oddSum = 0;
+
+class EvenSum{
+public:
+        static unsigned long int base(int x){
+            unsigned long int res = 0;
+            for(int i = 0; i < x; i++){
+                if((i & 1) == 0 ) res += i;
+            }
+            return res;
+        }
+    
+        void operator ()(int x){
+            evenSum = base(x);
+        }
+    
+        void nStatEvenSum(int x){
+            evenSum = base(x);
+        }
+    
+        static void statEvenSum(int x){
+            evenSum = base(x);
+        }
+};
+
+class OddSum{
+public:
+        static unsigned long int base(int x){
+            unsigned long int  res = 0;
+            for(int i = 0; i < x; i++){
+                if((i & 1) != 0 ) res += i;
+            }
+            return res;
+        }
+    
+        void operator ()(int x){
+            oddSum = base(x);
+        }
+    
+        void nStatOddSum(int x){
+            oddSum = base(x);
+        }
+
+        static void statOddSum(int x){
+            oddSum = base(x);
+        }   
+};
+
+void funcEvenSum(int x){
+    for(int i = 0; i < x; i++){
+        if((i & 1) == 0 ) evenSum += i;
+    }
+}
+
+void funcOddSum(int x){
+    for(int i = 0; i < x; i++){
+        if((i & 1) != 0) oddSum += i;
+    }
+}
+
+int main() {
+    int x = 1900000000;
+    auto start = std::chrono::high_resolution_clock::now(); 
+    // normal function calls with main thread
+    // funcEvenSum(x);
+    // funcOddSum(x);
+    
+    // with threads and func pointer type thread creation
+    // std::thread t1(funcEvenSum, x);
+    // std::thread t2(funcOddSum, x);
+    
+// with threads and lambda type thread creation
+//     std::thread t1(([](int x) {
+//         for(int i = 0; i < x; i++){
+//             if((i & 1) == 0) evenSum += i;
+//         }
+//     }), x);
+    
+//     std::thread t2(([](int x) {
+//         for(int i = 0; i < x; i++){
+//             if((i & 1) != 0) oddSum += i;
+//         }
+//     }), x);
+    
+    // with threads and functor type thread creation
+    // overloading ()
+    // std::thread t1((EvenSum()), x);
+    // std::thread t2((OddSum()), x);
+    
+    // with threads and non-static type thread creation 
+    // EvenSum esum;
+    // OddSum osum;
+    // std::thread t1(&EvenSum::nStatEvenSum, &esum, x);
+    // std::thread t2(&OddSum::nStatOddSum, &osum, x);
+    
+    // with threads and static type thread creation 
+    // EvenSum esum;
+    // OddSum osum;
+    std::thread t1(&EvenSum::statEvenSum, x);
+    std::thread t2(&OddSum::statOddSum, x);
+    
+    t1.join();
+    t2.join();
+    auto end = std::chrono::high_resolution_clock::now(); 
+    cout<<evenSum<<endl;
+    cout<<oddSum<<endl;
+    auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(start-end);
+    cout<<"duration:"<<diff.count()<<endl;
+}

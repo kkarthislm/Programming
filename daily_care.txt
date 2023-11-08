@@ -1,0 +1,16 @@
+1. Data types / loops / Operators
+2. Functions
+3. Pointers
+4. Const / Modifiers / Storage classes
+5. OOPS
+6. Exception handling
+7. Namespace, Templates, Preprocessors 
+8. Files and Streams
+9. STD Lib
+10. Multi-threading
+
+data types - primitive, non-primitive (derived / user-defined)
+primitive - bool, char, wchar_t, int, float, double -> signed, unsigned, short, long
+derived -> array, pointers, reference, string, 
+Classes and Objects - struct, union, enum, typedef, class
+class, Object, abstraction, encapsulation, inheritance, polymorphism, association, aggregation, composition
