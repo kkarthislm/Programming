@@ -1,3 +1,10 @@
 cpp.code-workspace
 basics/data_types/a.out
 *.out
+
+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
+.vscode/c_cpp_properties.json
+
+!*.cpp
+!*.h
+!*.txt
