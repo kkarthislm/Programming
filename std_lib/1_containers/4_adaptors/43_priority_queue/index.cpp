@@ -37,4 +37,18 @@ int main()
         cout <<-pq2.top() << endl;
         pq2.pop();
     }
+
+    // ascending
+    priority_queue<int, vector<int>, greater<int>> pq3;
+    pq3.push(4);
+    pq3.push(5);
+    pq3.push(3);
+    pq3.push(2);
+    pq3.push(6);
+    pq3.push(1);
+
+    while (!pq3.empty()){
+        cout <<pq3.top() << endl;
+        pq3.pop();
+    }
 }

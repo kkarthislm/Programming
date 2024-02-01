@@ -1,0 +1,107 @@
+Understanding the meaning of lvalues and rvalues in C++
+---------------------------------------------------------
+1. Lvalues and rvalues
+lvalue is something that points to a specific memory location. 
+On the other hand, a rvalue is something that doesn't point anywhere. 
+In general, rvalues are temporary and short lived, while lvalues live a longer life since they exist as variables.
+int x = 666;   // ok
+int* y = &x;   // ok
+
+int y;
+666 = y; // error!
+
+int* y = &666; // error!
+
+
+2. Functions returning lvalues and rvalues
+
+setValue() returns an rvalue (the temporary number 6)
+int setValue(){
+    return 6;
+}
+setValue() = 3; // error!
+
+int global = 100;
+int& setGlobal(){
+    return global;    
+}
+setGlobal() = 400; // fine
+
+3. Lvalue to rvalue conversion
+An lvalue may get converted to an rvalue: that's something perfectly legit and it happens quite often.
+Let's think of the addition + operator for example. According to the C++ specifications, it takes two rvalues as arguments and returns an rvalue.
+Let's look at the following snippet:
+int x = 1;
+int y = 3;
+int z = x + y;   // ok
+
+Wait a minute: x and y are lvalues, but the addition operator wants rvalues: how come? The answer is quite simple:
+x and y have undergone an implicit lvalue-to-rvalue conversion.
+Many other operators perform such conversion — subtraction, addition and division to name a few.
+
+4. Lvalue references
+
+int y = 10;
+int& yref = y;
+yref++;        // y is now 11
+you are declarying yref as of type int&: a reference to y. It's called an lvalue reference.
+Now you can happily change the value of y through its reference yref.
+
+int& yref = 10;  // error
+
+void fnc(int& x){}
+
+int main(){
+    fnc(10);  // error
+    // This works instead:
+    // int x = 10;
+    // fnc(x);
+}
+
+5. Const lvalue reference to the rescue
+
+const int& ref = 10;  // OK!
+
+void fnc(const int& x){}
+
+int main(){
+    fnc(10);  // OK!
+}
+
+The idea behind is quite straightforward. 
+The literal constant 10 is volatile and would expire in no time, so a reference to it is just meaningless. 
+Let's make the reference itself a constant instead, so that the value it points to can't be modified
+
+Under the hood the compiler creates an hidden variable for you 
+(i.e. an lvalue) where to store the original literal constant, and then bounds that hidden variable to your reference. 
+That's basically the same thing I did manually in a couple of snippets above. For example:
+
+// the following...
+const int& ref = 10;
+
+// ... would translate to:
+int __internal_unique_name = 10;
+const int& ref = __internal_unique_name;
+
+const int& ref = 10;
+std::cout << ref << "\n";   // OK!
+std::cout << ++ref << "\n"; // error: increment of read-only reference ‘ref’
+
+--------------------------------------------------------------------------------------------------------------------------
+
+C++ rvalue references and move semantics
+-----------------------------------------
+
+1. rvalue reference
+C++0x has introduced a new type called rvalue reference, denoted by placing a double ampersand && after some type. 
+Such rvalue reference lets you modify the value of a temporary object: 
+
+  std::string   s1     = "Hello ";
+  std::string   s2     = "world";
+  std::string&& s_rref = s1 + s2;    // the result of s1 + s2 is an rvalue
+  s_rref += ", my friend";           // I can change the temporary string!
+  std::cout << s_rref << '\n';       // prints "Hello world, my friend"
+
+******Rule of three/five*********
+
+2. Move semantics, the scenic route

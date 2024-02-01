@@ -1,0 +1,5 @@
+Problems with sharing data between threads
+invariants, race condition, software transactional memory (STM), deadlock
+
+Protecting shared data with mutexes
+mutex,

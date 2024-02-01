@@ -1,7 +1,13 @@
-/* 
-* learned process vs thread
+/* learned process ,thread, concurrency, parallelism, multithreading,
+* task switching , parallel execution , separation of concerns, performance enhancement
 * thread creation 
-* types of thread creations (func pointer, lambda, functor, non static members, static members)
+*  
+
+What is concurrency?
+Approaches for concurrency
+Why use concurrency?
+When not to use concurrency
+
 */
 
 #include<iostream>

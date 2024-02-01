@@ -1,3 +1,8 @@
+// a sorted associative container that contains key-value pairs with unique keys. Keys are sorted by using the comparison function Compare. 
+// Search, removal, and insertion operations have logarithmic complexity. 
+// Maps are usually implemented as Red–black trees
+// https://en.cppreference.com/w/cpp/container/map
+
 #include<iostream>
 #include<string>
 #include<map>

@@ -4,6 +4,9 @@ basics/data_types/a.out
 
 .vscode/c_cpp_properties.json
 
-!*.cpp
-!*.h
-!*.txt
+*.exe
+*.dSYM
+.vscode/tasks.json
+*.DS_Store
+
+*.bin

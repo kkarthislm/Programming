@@ -1,3 +1,8 @@
+// an associative container that contains a sorted set of unique objects of type Key. 
+// Sorting is done using the key comparison function Compare. Search, removal, and insertion operations have logarithmic complexity. 
+// Sets are usually implemented as Red–black trees
+// https://en.cppreference.com/w/cpp/container/set
+
 #include<iostream>
 #include<string>
 #include<set>
@@ -19,6 +24,9 @@ int main() {
     set<int> s3(next(begin(s2),3), end(s2)); // copy construtor with specified range
     set<int> s4(s2); // deep copy construtor
     set<int> s5 = {7,6,5,4,3,2}; // init
+
+    s5.erase(1);
+    s5.clear();
     
     // read
     // cout<<s2.contains(1)<<endl;
